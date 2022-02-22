@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class ClickableController : MonoBehaviour
 {
     // public variables
     public float sizeReduction = 1.0f;
+    public UnityEvent eventWhenClicked;
 
     // private variables
     private Transform spriteChild;
@@ -34,7 +36,7 @@ public class ClickableController : MonoBehaviour
     // Helper methods
     void ClickedAsButton()
     {
-
+        eventWhenClicked.Invoke();
     }
 
     // Unity methods
