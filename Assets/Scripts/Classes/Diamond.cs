@@ -18,4 +18,9 @@ public class Diamond
         else { IDCounter += 1; }
         successRate = percentage;
     }
+
+    public string GetPercentageString()
+    {
+        return System.String.Format("{0:P0}", successRate);
+    }
 }

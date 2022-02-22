@@ -26,12 +26,14 @@ public class ProgressBarController : MonoBehaviour
 
     // public methods
     public void AddSuccess() 
-    { 
+    {
+        if (nextCounter > maxTries) { return; }
         Instantiate(successPrefab, nextPoint, Quaternion.identity);
         IncrementInsertionPoint();
     }
     public void AddFail()
     {
+        if (nextCounter > maxTries) { return; }
         Instantiate(failPrefab, nextPoint, Quaternion.identity);
         IncrementInsertionPoint();
     }
@@ -39,16 +41,15 @@ public class ProgressBarController : MonoBehaviour
     // helper methods
     private void IncrementInsertionPoint()
     {
-        nextCounter++;
-        if (nextCounter > iconsPerColumn) 
+        if (nextCounter % iconsPerColumn == 0) 
         { 
-            nextCounter = nextCounter % iconsPerColumn;
             nextPoint = new Vector3(nextPoint.x + xOffset, defaultPoint.y, 0);
         }
         else
         {
             nextPoint += new Vector3(0, yOffset, 0);
         }
+        nextCounter++;
     }
 
 }

@@ -17,9 +17,10 @@ public class ClickableController : MonoBehaviour
     private bool mousedOver = false;
     private Vector3 reducedSizeVector;
 
-    void Start()
+    void Awake()
     {
         spriteChild = transform.Find("Sprite");
+        Debug.Log(spriteChild);
         reducedSizeVector = new Vector3(sizeReduction, sizeReduction, 1.0f);
     }
 

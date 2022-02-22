@@ -1,20 +1,22 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class DiamondController : MonoBehaviour
 {
 
     // public variables
     public Diamond currentDiamond;
+    public TextMeshProUGUI percentageText;
 
     // private variables
     private ProgressBarController progressBarController;
 
     void Start()
     {
-        progressBarController = SampleSceneHandler.Instance.progressBarController;
-        currentDiamond = new Diamond(0.75f);
+        progressBarController = JewelerSceneHandler.Instance.progressBarController;
+        SetCurrentDiamond(new Diamond(0.75f));
     }
 
     // public methods
@@ -31,7 +33,7 @@ public class DiamondController : MonoBehaviour
     public void SetCurrentDiamond(Diamond diamond)
     {
         currentDiamond = diamond;
-        // numberOfSuccesses = 0; numberOfFailures = 0;
+        percentageText.text = currentDiamond.GetPercentageString();
     }
 
     // helper methods
