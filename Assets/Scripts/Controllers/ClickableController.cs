@@ -5,6 +5,9 @@ using UnityEngine.Events;
 
 public class ClickableController : MonoBehaviour
 {
+    // static list of all clickable controllers
+    private static List<ClickableController> listOfClickables = new List<ClickableController>();
+
     // public variables
     public float sizeReduction = 1.0f;
     public UnityEvent eventWhenClicked;
@@ -13,6 +16,7 @@ public class ClickableController : MonoBehaviour
     private Transform spriteChild;
 
     // helper variables
+    private bool clickEnabled = true;
     private bool clicked = false;
     private bool mousedOver = false;
     private Vector3 reducedSizeVector;
@@ -20,10 +24,12 @@ public class ClickableController : MonoBehaviour
     void Awake()
     {
         spriteChild = transform.Find("Sprite");
-        Debug.Log(spriteChild);
         reducedSizeVector = new Vector3(sizeReduction, sizeReduction, 1.0f);
     }
-
+    void Start()
+    {
+        listOfClickables.Add(this);
+    }
     void Update()
     {
         // Reset clicked if mouse button ever goes up
@@ -33,6 +39,16 @@ public class ClickableController : MonoBehaviour
         if ( clicked && mousedOver ) { spriteChild.localScale = reducedSizeVector; }
         else { spriteChild.localScale = Vector3.one; }
     }
+    void OnDestroy()
+    {
+        listOfClickables.Remove(this);
+    }
+
+    // Public methods
+    public void Enable() { clickEnabled = true; }
+    public void Disable() { clickEnabled = false; clicked = false; mousedOver = false; }
+    public static void EnableAll() { foreach (ClickableController clickable in listOfClickables) { clickable.Enable(); } }
+    public static void DisableAll() { foreach (ClickableController clickable in listOfClickables) { clickable.Disable(); } }
 
     // Helper methods
     void ClickedAsButton()
@@ -44,9 +60,9 @@ public class ClickableController : MonoBehaviour
     /*
     void OnMouseUpAsButton() { }
     */
-    void OnMouseDown() { clicked = true; }
+    void OnMouseDown() { if(!clickEnabled){return;} clicked = true; }
     void OnMouseUp() { if (clicked) { ClickedAsButton(); } }
-    void OnMouseEnter() { mousedOver = true; }
+    void OnMouseEnter() { if(!clickEnabled){return;} mousedOver = true; }
     void OnMouseExit() { mousedOver = false; }
 
 
