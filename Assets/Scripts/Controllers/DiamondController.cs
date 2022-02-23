@@ -35,15 +35,19 @@ public class DiamondController : MonoBehaviour
         currentDiamond = diamond;
         percentageText.text = currentDiamond.GetPercentageString();
     }
+    public Diamond GetDiamond()
+    {
+        return currentDiamond;
+    }
 
     // helper methods
     private void SuccessFacet()
     {
-        progressBarController.AddSuccess();
+        progressBarController.AddSuccess(); currentDiamond.AddSuccess();
     }
     private void FailFacet()
     {
-        progressBarController.AddFail();
+        progressBarController.AddFail(); currentDiamond.AddFail();
     }
 
 }

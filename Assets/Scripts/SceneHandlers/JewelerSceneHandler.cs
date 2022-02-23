@@ -61,4 +61,15 @@ public class JewelerSceneHandler : MonoBehaviour
         diamondController.SetCurrentDiamond(new Diamond(selectedPercentage));
         CloseSwapMenu();
     }
+    public void FinishFaceting()
+    {
+        // TODO: something about the Diamond
+        Diamond finishedDiamond = diamondController.GetDiamond();
+        int counter = 1;
+        foreach(bool facetResult in finishedDiamond.GetResult())
+        {
+            Debug.Log(counter + ": " + facetResult);
+            counter++;
+        }
+    }
 }
