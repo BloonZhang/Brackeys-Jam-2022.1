@@ -7,8 +7,16 @@ using UnityEngine.UI;
 public class GraphController : MonoBehaviour
 {
 
+    // private GameObjects
     [SerializeField] private Sprite circleSprite;
     private RectTransform graphContainer;
+
+    // public variables
+    public int numberOfFacets = 10;
+
+    // helper variables
+    private List<GameObject> listOfGraphItems = new List<GameObject>();
+    private GameObject verticalLine;
 
     void Awake()
     {
@@ -17,20 +25,19 @@ public class GraphController : MonoBehaviour
 
     void Start()
     {
-        DrawEVGraph(10, 0.5f);
+        CreateVerticalLine(5);
     }
 
     // public methods
-    public void DrawEVGraph(int totalTrials, float percentageSuccess)
+    public void DrawEVGraph(float percentageSuccess)
     {
+        ClearGraph();
         List<float> valueList = new List<float>();
-        for (int i = 0; i <= totalTrials; i++)
+        for (int i = 0; i <= numberOfFacets; i++)
         {
-            valueList.Add(Stats.CalculateProbability(totalTrials, i, percentageSuccess));
+            valueList.Add(Stats.CalculateProbability(numberOfFacets, i, percentageSuccess));
         }
         ShowGraph(valueList);
-        // TODO: debug why line is showing up in wrong x coordinate
-        CreateVerticalLine(0, 10);
     }
 
     // Methods for drawing graph
@@ -65,6 +72,7 @@ public class GraphController : MonoBehaviour
         rectTransform.sizeDelta = new Vector2(11, 11);
         rectTransform.anchorMin = new Vector2(0, 0);
         rectTransform.anchorMax = new Vector2(0, 0);
+        listOfGraphItems.Add(gameObject);
         return gameObject;
     }
     private void CreateDotConnection(Vector2 dotPositionA, Vector2 dotPositionB)
@@ -80,11 +88,12 @@ public class GraphController : MonoBehaviour
         rectTransform.sizeDelta = new Vector2(distance, 3f);
         rectTransform.anchoredPosition = dotPositionA + direction * distance * 0.5f;
         rectTransform.localEulerAngles = new Vector3(0, 0, (Mathf.Atan2(direction.y, direction.x)*180/Mathf.PI));
+        listOfGraphItems.Add(gameObject);
     }
-    private void CreateVerticalLine(int successes, int trials)
+    private void CreateVerticalLine(int successes)
     {
-        float ySize = graphContainer.sizeDelta.y * 0.75f;
-        float xPosition = (graphContainer.sizeDelta.x / (trials + 1)) * (successes + 1);
+        float ySize = graphContainer.sizeDelta.y * 0.5f;
+        float xPosition = (graphContainer.sizeDelta.x / (numberOfFacets + 2)) * (successes + 1);
         GameObject gameObject = new GameObject("vertLine", typeof(Image));
         gameObject.transform.SetParent(graphContainer, false);
         gameObject.GetComponent<Image>().color = new Color(1,1,1,0.5f);
@@ -93,5 +102,10 @@ public class GraphController : MonoBehaviour
         rectTransform.anchorMax = new Vector2(0, 0);
         rectTransform.sizeDelta = new Vector2(3f, ySize);
         rectTransform.anchoredPosition = new Vector2(xPosition, ySize * 0.5f);
+        verticalLine = gameObject;
+    }
+    private void ClearGraph()
+    {
+        foreach (GameObject gameObject in listOfGraphItems) { Destroy(gameObject); }
     }
 }
