@@ -7,6 +7,7 @@ public class ProgressBarController : MonoBehaviour
 {
 
     // public GameObjects
+    public Transform gridLayout;
     public GameObject successPrefab;
     public GameObject failPrefab;
     public Button swapButton;
@@ -32,14 +33,14 @@ public class ProgressBarController : MonoBehaviour
     public bool AddSuccess() 
     {
         if (nextCounter > maxTries) { return false; }
-        Instantiate(successPrefab, nextPoint, Quaternion.identity);
+        Instantiate(successPrefab, gridLayout);
         IncrementInsertionPoint();
         return true;
     }
     public bool AddFail()
     {
         if (nextCounter > maxTries) { return false; }
-        Instantiate(failPrefab, nextPoint, Quaternion.identity);
+        Instantiate(failPrefab, gridLayout);
         IncrementInsertionPoint();
         return true;
     }
