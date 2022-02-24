@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class SampleSceneHandler : MonoBehaviour
 {
+    /*
     //////// Singleton shenanigans ////////
     private static SampleSceneHandler _instance;
     public static SampleSceneHandler Instance { get {return _instance;} }
@@ -23,5 +24,6 @@ public class SampleSceneHandler : MonoBehaviour
     {
         progressBarController = GetComponent<ProgressBarController>();
     }
+    */
 
 }

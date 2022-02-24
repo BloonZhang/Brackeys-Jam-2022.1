@@ -11,15 +11,14 @@ public class JewelerSceneHandler : MonoBehaviour
     //////// Singleton shenanigans continue in Awake() ////
 
     // Controllers
-    public ProgressBarController progressBarController;
     public DiamondController diamondController;
-
 
     // public gameobjects
     public GameObject blocker;
     public GameObject swapMenu;
     public TextMeshProUGUI selectedPercentageText;
     public TextMeshProUGUI forceSuccessText;
+    public TextMeshProUGUI currentCashText;
 
     // public variables
     public int forceSuccessMax = 3;
@@ -27,6 +26,7 @@ public class JewelerSceneHandler : MonoBehaviour
 
     // private variables
     private float selectedPercentage = 0.0f;
+    private float currentCash = 1000f;
 
     void Awake()
     {
@@ -40,11 +40,12 @@ public class JewelerSceneHandler : MonoBehaviour
         // diable pause menu blocker
         blocker.SetActive(false); swapMenu.SetActive(false);
         forceSuccessRemaining = forceSuccessMax; forceSuccessText.text = "Remaining: " + forceSuccessRemaining;
+        UpdateCashText();
 
         // Debug Stats.cs
     }
 
-    // public methods
+    // methods for swap menu
     public void OpenSwapMenu()
     {
         selectedPercentage = 0.0f; selectedPercentageText.text = "-- %";
@@ -69,6 +70,7 @@ public class JewelerSceneHandler : MonoBehaviour
         diamondController.SetCurrentDiamond(new Diamond(selectedPercentage));
         CloseSwapMenu();
     }
+    // Methods for faceting
     public int ForceSuccessRemaining() { return forceSuccessRemaining; }
     public bool UseForceSuccess()
     {
@@ -87,4 +89,11 @@ public class JewelerSceneHandler : MonoBehaviour
             counter++;
         }
     }
+    // Methods for cash
+    public void GainCash(float cash) { currentCash += cash; UpdateCashText(); }
+    public void LoseCash(float cash) { currentCash -= cash; UpdateCashText(); }
+    private void UpdateCashText() { currentCashText.text = System.String.Format("${0:F0}", currentCash); }
+
+    // helper methods
+
 }

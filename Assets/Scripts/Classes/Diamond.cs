@@ -9,6 +9,7 @@ public class Diamond
 
     public int ID;
     public float successRate;
+    public float value;
     public List<bool> listOfFacets;
 
     private Diamond() { }
@@ -19,6 +20,7 @@ public class Diamond
         else { IDCounter += 1; }
         ID = IDCounter;
         successRate = percentage;
+        value = 0f;
         listOfFacets = new List<bool>();
     }
 
@@ -26,6 +28,10 @@ public class Diamond
     public string GetPercentageString()
     {
         return System.String.Format("{0:P0}", successRate);
+    }
+    public string GetValueString()
+    {
+        return System.String.Format("${0:F0}", value);
     }
     public void AddSuccess() { listOfFacets.Add(true); }
     public void AddFail() { listOfFacets.Add(false); }
