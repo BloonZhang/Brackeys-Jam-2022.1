@@ -40,6 +40,8 @@ public class JewelerSceneHandler : MonoBehaviour
         // diable pause menu blocker
         blocker.SetActive(false); swapMenu.SetActive(false);
         forceSuccessRemaining = forceSuccessMax; forceSuccessText.text = "Remaining: " + forceSuccessRemaining;
+
+        // Debug Stats.cs
     }
 
     // public methods
