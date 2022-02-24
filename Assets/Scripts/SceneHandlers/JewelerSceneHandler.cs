@@ -19,6 +19,11 @@ public class JewelerSceneHandler : MonoBehaviour
     public GameObject blocker;
     public GameObject swapMenu;
     public TextMeshProUGUI selectedPercentageText;
+    public TextMeshProUGUI forceSuccessText;
+
+    // public variables
+    public int forceSuccessMax = 3;
+    private int forceSuccessRemaining;
 
     // private variables
     private float selectedPercentage = 0.0f;
@@ -34,6 +39,7 @@ public class JewelerSceneHandler : MonoBehaviour
     {
         // diable pause menu blocker
         blocker.SetActive(false); swapMenu.SetActive(false);
+        forceSuccessRemaining = forceSuccessMax; forceSuccessText.text = "Remaining: " + forceSuccessRemaining;
     }
 
     // public methods
@@ -60,6 +66,13 @@ public class JewelerSceneHandler : MonoBehaviour
         // Create diamond and give to diamondcontroller
         diamondController.SetCurrentDiamond(new Diamond(selectedPercentage));
         CloseSwapMenu();
+    }
+    public int ForceSuccessRemaining() { return forceSuccessRemaining; }
+    public bool UseForceSuccess()
+    {
+        if ( forceSuccessRemaining <= 0 ) { return false; }
+        forceSuccessRemaining -= 1; forceSuccessText.text = "Remaining: " + forceSuccessRemaining;
+        return true;
     }
     public void FinishFaceting()
     {

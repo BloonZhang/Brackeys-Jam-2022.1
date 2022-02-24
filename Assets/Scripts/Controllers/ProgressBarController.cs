@@ -29,17 +29,19 @@ public class ProgressBarController : MonoBehaviour
     }
 
     // public methods
-    public void AddSuccess() 
+    public bool AddSuccess() 
     {
-        if (nextCounter > maxTries) { return; }
+        if (nextCounter > maxTries) { return false; }
         Instantiate(successPrefab, nextPoint, Quaternion.identity);
         IncrementInsertionPoint();
+        return true;
     }
-    public void AddFail()
+    public bool AddFail()
     {
-        if (nextCounter > maxTries) { return; }
+        if (nextCounter > maxTries) { return false; }
         Instantiate(failPrefab, nextPoint, Quaternion.identity);
         IncrementInsertionPoint();
+        return true;
     }
     public void Reset()
     {

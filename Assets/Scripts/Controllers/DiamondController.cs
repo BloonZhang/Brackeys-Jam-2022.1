@@ -30,6 +30,16 @@ public class DiamondController : MonoBehaviour
         if (randomValue < currentDiamond.successRate) { SuccessFacet(); }
         else { FailFacet(); }
     }
+    public void ForceSuccessFacet()
+    {
+        if (JewelerSceneHandler.Instance.ForceSuccessRemaining() <= 0) { return; }
+        bool faceted = SuccessFacet();
+        if (faceted) { JewelerSceneHandler.Instance.UseForceSuccess(); }
+    }
+    public void ForceFailFacet()
+    {
+        FailFacet();
+    }
     public void SetCurrentDiamond(Diamond diamond)
     {
         currentDiamond = diamond;
@@ -41,13 +51,17 @@ public class DiamondController : MonoBehaviour
     }
 
     // helper methods
-    private void SuccessFacet()
+    private bool SuccessFacet()
     {
-        progressBarController.AddSuccess(); currentDiamond.AddSuccess();
+        bool result = progressBarController.AddSuccess(); 
+        if (result) { currentDiamond.AddSuccess(); }
+        return result;
     }
-    private void FailFacet()
+    private bool FailFacet()
     {
-        progressBarController.AddFail(); currentDiamond.AddFail();
+        bool result = progressBarController.AddFail(); 
+        if (result) { currentDiamond.AddFail(); }
+        return result;
     }
 
 }
