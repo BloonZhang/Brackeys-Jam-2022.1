@@ -35,5 +35,6 @@ public class Diamond
     }
     public void AddSuccess() { listOfFacets.Add(true); }
     public void AddFail() { listOfFacets.Add(false); }
+    public void AddValue(float increase) { value+= increase; }
     public List<bool> GetResult() { return listOfFacets; }
 }
