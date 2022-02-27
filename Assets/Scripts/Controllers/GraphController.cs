@@ -6,13 +6,14 @@ using UnityEngine.UI;
 //TODO: animate dots moving up and down
 public class GraphController : MonoBehaviour
 {
-
     // private GameObjects
     [SerializeField] private Sprite circleSprite;
     private RectTransform graphContainer;
 
     // public variables
     public int numberOfFacets = 10;
+    public int numberOfSuccesses = 0;
+    public float currentProbabilityShown = 0.75f;
 
     // helper variables
     private List<GameObject> listOfGraphItems = new List<GameObject>();
@@ -23,21 +24,19 @@ public class GraphController : MonoBehaviour
         graphContainer = transform.Find("GraphContainer").GetComponent<RectTransform>();
     }
 
-    void Start()
-    {
-        CreateVerticalLine(5);
-    }
-
     // public methods
     public void DrawEVGraph(float percentageSuccess)
     {
-        ClearGraph();
+        ClearGraph(); ClearVerticalLine();
+        currentProbabilityShown = percentageSuccess;
         List<float> valueList = new List<float>();
         for (int i = 0; i <= numberOfFacets; i++)
         {
             valueList.Add(Stats.CalculateProbability(numberOfFacets, i, percentageSuccess));
         }
         ShowGraph(valueList);
+        CreateVerticalLine(numberOfSuccesses);
+        InspectorSceneHandler.Instance.UpdateAllText();
     }
 
     // Methods for drawing graph
@@ -108,4 +107,5 @@ public class GraphController : MonoBehaviour
     {
         foreach (GameObject gameObject in listOfGraphItems) { Destroy(gameObject); }
     }
+    private void ClearVerticalLine() { Destroy(verticalLine); }
 }

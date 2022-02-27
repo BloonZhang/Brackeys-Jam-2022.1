@@ -22,6 +22,13 @@ public static class Stats
         float nck = (float) Stats.nCk(n, k);
         return nck * Mathf.Pow(p, (float)k) * Mathf.Pow((1- p), (float)(n-k));
     }
+    // probability of at least k successes in n trials
+    public static float CalculateCumulativeProbability(int n, int k, float p)
+    {
+        float result = 0f;
+        for (int i = 0; i <= k; i++) { result += CalculateProbability(n, i, p); }
+        return result;
+    }
 
     // some weird form of risk calculation
     // I think this calculates the probability that a value from p1 will reasonably be from p2?
